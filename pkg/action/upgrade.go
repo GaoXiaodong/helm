@@ -145,6 +145,10 @@ func (u *Upgrade) RunWithContext(ctx context.Context, name string, chart *chart.
 		return nil, err
 	}
 
+	if upgradedRelease.Manifest == "" {
+		return upgradedRelease, errors.New("chart manifest is empty")
+	}
+
 	u.cfg.Releases.MaxHistory = u.MaxHistory
 
 	u.cfg.Log("performing update for %s", name)

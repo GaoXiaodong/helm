@@ -262,6 +262,11 @@ func (i *Install) RunWithContext(ctx context.Context, chrt *chart.Chart, vals ma
 	if manifestDoc != nil {
 		rel.Manifest = manifestDoc.String()
 	}
+
+	if rel.Manifest == "" {
+		return rel, errors.New("chart manifest is empty")
+	}
+
 	// Check error from render
 	if err != nil {
 		rel.SetStatus(release.StatusFailed, fmt.Sprintf("failed to render resource: %s", err.Error()))
