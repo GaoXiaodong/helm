@@ -102,11 +102,11 @@ type Configuration struct {
 // TODO: This function is badly in need of a refactor.
 // TODO: As part of the refactor the duplicate code in cmd/helm/template.go should be removed
 //       This code has to do with writing files to disk.
-func (cfg *Configuration) renderResources(ch *chart.Chart, values chartutil.Values, releaseName, outputDir string, subNotes, useReleaseName, includeCrds bool, pr postrender.PostRenderer, dryRun bool) ([]*release.Hook, *bytes.Buffer, string, error) {
+func (cfg *Configuration) RenderResources(ch *chart.Chart, values chartutil.Values, releaseName, outputDir string, subNotes, useReleaseName, includeCrds bool, pr postrender.PostRenderer, dryRun bool) ([]*release.Hook, *bytes.Buffer, string, error) {
 	hs := []*release.Hook{}
 	b := bytes.NewBuffer(nil)
 
-	caps, err := cfg.getCapabilities()
+	caps, err := cfg.GetCapabilities()
 	if err != nil {
 		return hs, b, "", err
 	}
@@ -236,7 +236,7 @@ type RESTClientGetter interface {
 type DebugLog func(format string, v ...interface{})
 
 // capabilities builds a Capabilities from discovery information.
-func (cfg *Configuration) getCapabilities() (*chartutil.Capabilities, error) {
+func (cfg *Configuration) GetCapabilities() (*chartutil.Capabilities, error) {
 	if cfg.Capabilities != nil {
 		return cfg.Capabilities, nil
 	}
